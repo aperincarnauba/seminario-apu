@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frizo — O frescor que explode.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --lime:        #C8F135;
+      --lime-dark:   #9DC010;
+      --lime-glow:   rgba(200, 241, 53, 0.35);
+      --ocean:       #0A4F6E;
+      --ocean-dark:  #071A25;
+      --ocean-mid:   #0D3347;
+      --ice:         #F0FAFF;
+      --sunny:       #FFD923;
+      --orange:      #E8511A;
+      --white:       #FFFFFF;
+      --text:        #1A2E1A;
+      --text-muted:  #4A6A5A;
+      --radius:      18px;
+      --radius-lg:   32px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ─── NAVBAR ────────────────────────────────────────────────── */
+    .navbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      padding: 1.25rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+    .navbar.scrolled {
+      background: rgba(7, 26, 37, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.3);
+    }
+
+    .nav-logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--lime);
+      letter-spacing: -1.5px;
+      text-shadow: 0 0 24px rgba(200,241,53,0.45);
+      user-select: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--lime); }
+
+    .btn-nav {
+      background: var(--lime);
+      color: var(--ocean-dark);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 0.65rem 1.6rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      white-space: nowrap;
+    }
+    .btn-nav:hover {
+      background: var(--sunny);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,217,35,0.4);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 201;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      background: rgba(7, 26, 37, 0.97);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a {
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      transition: color 0.2s;
+    }
+    .nav-mobile a:hover { color: var(--lime); }
+
+    /* ─── BUTTONS ───────────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--ocean-dark);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 1rem 2.75rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 4px 20px var(--lime-glow);
+    }
+    .btn-primary:hover {
+      background: var(--sunny);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 32px rgba(255,217,35,0.5);
+    }
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      border: 2px solid rgba(255,255,255,0.35);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .btn-outline:hover { border-color: var(--lime); color: var(--lime); }
+
+    /* ─── SECTION COMMONS ───────────────────────────────────────── */
+    .section { padding: 7rem 2rem; }
+    .container { max-width: 1180px; margin: 0 auto; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--lime-dark);
+      margin-bottom: 0.9rem;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+
+    .heading {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--ocean-dark);
+    }
+    .heading--xl  { font-size: clamp(2.6rem, 5vw, 4.2rem); }
+
+    .accent-bars {
+      display: flex;
+      gap: 5px;
+      margin: 1.4rem 0 2rem;
+    }
+    .accent-bars span {
+      display: block;
+      height: 4px;
+      border-radius: 3px;
+    }
+    .bar-ocean  { width: 42px; background: var(--ocean); }
+    .bar-orange { width: 26px; background: var(--orange); }
+
+    .highlight { color: var(--orange); }
+
+    /* ─── SCROLL ANIMATIONS ─────────────────────────────────────── */
+    [data-anim] {
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    [data-anim="fade"]       { opacity: 0; transform: translateY(36px); }
+    [data-anim="left"]       { opacity: 0; transform: translateX(-48px); }
+    [data-anim="right"]      { opacity: 0; transform: translateX(48px); }
+    [data-anim="scale"]      { opacity: 0; transform: scale(0.88); }
+    [data-anim].anim-visible { opacity: 1 !important; transform: none !important; }
+
+    [data-delay="1"] { transition-delay: 0.12s; }
+    [data-delay="2"] { transition-delay: 0.24s; }
+    [data-delay="3"] { transition-delay: 0.36s; }
+    [data-delay="4"] { transition-delay: 0.48s; }
+
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100dvh;
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/hero.png') center / cover no-repeat;
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(7, 26, 37, 0.2)  0%,
+        rgba(7, 26, 37, 0.48) 55%,
+        rgba(7, 26, 37, 0.84) 100%
+      );
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 840px;
+      padding: 0 1.5rem;
+    }
+
+    .hero__badge {
+      display: inline-block;
+      background: rgba(200,241,53,0.1);
+      border: 1px solid rgba(200,241,53,0.3);
+      color: var(--lime);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 0.4rem 1.25rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero__title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(5.5rem, 17vw, 12.5rem);
+      color: var(--white);
+      line-height: 0.88;
+      letter-spacing: -5px;
+      text-shadow: 0 6px 40px rgba(0,0,0,0.35);
+      margin-bottom: 1.1rem;
+    }
+    .hero__title em {
+      font-style: normal;
+      color: var(--lime);
+      text-shadow: 0 0 60px rgba(200,241,53,0.55);
+    }
+
+    .hero__tagline {
+      font-size: clamp(1.1rem, 2.8vw, 1.55rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: 0.5px;
+      margin-bottom: 2.75rem;
+    }
+    .hero__tagline strong {
+      font-weight: 600;
+      color: var(--lime);
+    }
+
+    .hero__cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero__scroll {
+      position: absolute;
+      bottom: 2.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.38);
+      font-size: 0.62rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      animation: scrollBounce 2.2s ease-in-out infinite;
+    }
+    .hero__scroll::after {
+      content: '';
+      width: 1px;
+      height: 44px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── SOBRE ─────────────────────────────────────────────────── */
+    .sobre { background: var(--ice); }
+    .sobre .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .sobre__body {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .sobre__stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2.75rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(10,79,110,0.1);
+    }
+    .stat__num {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 2.6rem;
+      color: var(--ocean);
+      line-height: 1;
+    }
+    .stat__num sup {
+      font-size: 1rem;
+      color: var(--lime-dark);
+      vertical-align: super;
+    }
+    .stat__label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+      margin-top: 0.25rem;
+    }
+
+    .sobre__img-wrap { position: relative; }
+    .sobre__img-wrap img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 24px 64px rgba(10,79,110,0.16);
+    }
+    .sobre__badge {
+      position: absolute;
+      bottom: 2.25rem;
+      right: -1.25rem;
+      background: var(--lime);
+      color: var(--ocean-dark);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      padding: 0.85rem 1.3rem;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    /* ─── PRODUTO ───────────────────────────────────────────────── */
+    .produto { background: var(--white); overflow: hidden; }
+    .produto .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .produto__visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .produto__glow {
+      position: absolute;
+      width: 80%;
+      aspect-ratio: 1;
+      background: radial-gradient(circle, rgba(200,241,53,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .produto__img {
+      position: relative;
+      z-index: 1;
+      width: 78%;
+      filter: drop-shadow(0 24px 48px rgba(10,79,110,0.22));
+      border-radius: var(--radius-lg);
+    }
+
+    .feature {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      padding: 1.4rem;
+      border-radius: var(--radius);
+      background: var(--ice);
+      margin-bottom: 1.1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feature:hover {
+      transform: translateX(8px);
+      box-shadow: 0 6px 24px rgba(10,79,110,0.08);
+    }
+    .feature__icon {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--lime), var(--lime-dark));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.45rem;
+    }
+    .feature__name {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--ocean-dark);
+      margin-bottom: 0.3rem;
+    }
+    .feature__desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── LIFESTYLE ─────────────────────────────────────────────── */
+    .lifestyle {
+      position: relative;
+      background: var(--ocean-dark);
+      overflow: hidden;
+      padding: 0;
+    }
+    .lifestyle__bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/3.png') center / cover no-repeat;
+      opacity: 0.18;
+    }
+    .lifestyle__gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        105deg,
+        rgba(7,26,37,0.97) 0%,
+        rgba(7,26,37,0.72) 55%,
+        rgba(7,26,37,0.38) 100%
+      );
+    }
+
+    .lifestyle__inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 7rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .lifestyle__eyebrow { color: var(--lime); }
+
+    .lifestyle__heading {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      color: var(--white);
+      line-height: 1.05;
+    }
+    .lifestyle__heading em {
+      font-style: normal;
+      color: var(--lime);
+    }
+
+    .lifestyle__desc {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.62);
+      margin-bottom: 2.75rem;
+    }
+
+    .lifestyle__img-wrap { position: relative; }
+    .lifestyle__img-wrap img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+    }
+    .lifestyle__tag {
+      position: absolute;
+      top: 2rem;
+      left: -1.25rem;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      padding: 0.6rem 1.3rem;
+      border-radius: var(--radius);
+      box-shadow: 0 6px 20px rgba(232,81,26,0.45);
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────────── */
+    .footer {
+      background: var(--ocean-dark);
+      border-top: 1px solid rgba(200,241,53,0.07);
+      padding: 4.5rem 2rem 2rem;
+    }
+    .footer__inner { max-width: 1180px; margin: 0 auto; }
+
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 3.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer__logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 2.6rem;
+      color: var(--lime);
+      letter-spacing: -2px;
+      margin-bottom: 0.5rem;
+    }
+    .footer__tagline {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 1.75rem;
+    }
+
+    .socials { display: flex; gap: 0.75rem; }
+    .social {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .social:hover { background: var(--lime); color: var(--ocean-dark); border-color: var(--lime); }
+    .social svg { width: 17px; height: 17px; fill: currentColor; }
+
+    .footer__col h4 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 1.25rem;
+    }
+    .footer__col ul { list-style: none; }
+    .footer__col li { margin-bottom: 0.8rem; }
+    .footer__col a {
+      color: rgba(255,255,255,0.42);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer__col a:hover { color: var(--lime); }
+
+    .footer__bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer__bottom p { font-size: 0.78rem; color: rgba(255,255,255,0.28); }
+    .footer__pip { display: flex; gap: 5px; }
+    .footer__pip span { display: block; height: 3px; border-radius: 2px; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .navbar { padding: 1.1rem 1.5rem; }
+      .nav-links, .btn-nav { display: none; }
+      .hamburger { display: flex; }
+
+      .sobre .container,
+      .produto .container { grid-template-columns: 1fr; gap: 3rem; }
+
+      .produto__visual { order: -1; }
+
+      .lifestyle__inner { grid-template-columns: 1fr; padding: 5rem 1.5rem; }
+      .lifestyle__img-wrap { display: none; }
+
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+      .footer__brand { grid-column: 1 / -1; }
+      .sobre__badge { right: 0; }
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 5rem 1.25rem; }
+      .hero__title { letter-spacing: -2.5px; }
+      .sobre__stats { flex-wrap: wrap; gap: 1.75rem; }
+      .footer__grid { grid-template-columns: 1fr; }
+      .footer__brand { grid-column: unset; }
+      .footer__bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══ NAVBAR ══════════════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">Frizo</div>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#produto">Produto</a></li>
+      <li><a href="#lifestyle">Estilo</a></li>
+    </ul>
+    <a href="#produto" class="btn-nav">Quero meu Frizo</a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav-mobile" id="navMobile" role="dialog" aria-label="Menu">
+    <a href="#sobre"     onclick="closeMobile()">Sobre</a>
+    <a href="#produto"   onclick="closeMobile()">Produto</a>
+    <a href="#lifestyle" onclick="closeMobile()">Estilo</a>
+    <a href="#produto" class="btn-primary" onclick="closeMobile()">Quero meu Frizo</a>
+  </div>
+
+
+  <!-- ═══ HERO ════════════════════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero__bg" id="heroBg"></div>
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <div class="hero__badge" data-anim="fade">Premium Brazilian Lemon Soda</div>
+
+      <h1 class="hero__title" data-anim="fade" data-delay="1">
+        Fri<em>zo</em>
+      </h1>
+
+      <p class="hero__tagline" data-anim="fade" data-delay="2">
+        O frescor que <strong>explode.</strong>
+      </p>
+
+      <div class="hero__cta" data-anim="fade" data-delay="3">
+        <a href="#produto" class="btn-primary">Quero meu Frizo</a>
+        <a href="#sobre"   class="btn-outline">Conheça a marca</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">Scroll</div>
+  </section>
+
+
+  <!-- ═══ SOBRE ════════════════════════════════════════════════════ -->
+  <section class="section sobre" id="sobre">
+    <div class="container">
+
+      <div data-anim="left">
+        <p class="eyebrow">Nossa história</p>
+        <h2 class="heading heading--xl">
+          Nascemos<br>no <span class="highlight">calor.</span>
+        </h2>
+        <div class="accent-bars">
+          <span class="bar-ocean"></span>
+          <span class="bar-orange"></span>
+        </div>
+        <p class="sobre__body">
+          O Frizo nasceu nas praias do Rio de Janeiro, onde o sol queima forte
+          e a sede é real. Criamos um refrigerante que é mais do que uma bebida
+          — é a sensação de mergulhar no mar em forma de lata.
+        </p>
+        <p class="sobre__body">
+          Com limão 100% natural e uma gaseificação que explode na língua,
+          o Frizo é o parceiro perfeito para quem vive com intensidade.
+        </p>
+        <div class="sobre__stats">
+          <div>
+            <div class="stat__num">100<sup>%</sup></div>
+            <div class="stat__label">Limão Natural</div>
+          </div>
+          <div>
+            <div class="stat__num">0<sup>g</sup></div>
+            <div class="stat__label">Conservantes</div>
+          </div>
+          <div>
+            <div class="stat__num">+30<sup>°</sup></div>
+            <div class="stat__label">Feito pro calor</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sobre__img-wrap" data-anim="right" data-delay="1">
+        <img src="assets/1.png" alt="Frizo — O frescor que explode">
+        <div class="sobre__badge">Premium<br>Brazilian Soda&nbsp;🍋</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══ PRODUTO ══════════════════════════════════════════════════ -->
+  <section class="section produto" id="produto">
+    <div class="container">
+
+      <div class="produto__visual" data-anim="scale">
+        <div class="produto__glow"></div>
+        <img class="produto__img" src="assets/lifestyle.png" alt="Lata Frizo — Limão Natural">
+      </div>
+
+      <div>
+        <p class="eyebrow" data-anim="fade">O Produto</p>
+        <h2 class="heading heading--xl" data-anim="fade" data-delay="1">
+          Limão natural.<br>
+          <span class="highlight">Ultra-gaseificado.</span><br>
+          Gelado.
+        </h2>
+        <div class="accent-bars" data-anim="fade" data-delay="1">
+          <span class="bar-ocean"></span>
+          <span class="bar-orange"></span>
+        </div>
+
+        <div class="feature" data-anim="fade" data-delay="1">
+          <div class="feature__icon">🍋</div>
+          <div>
+            <div class="feature__name">Limão 100% Natural</div>
+            <div class="feature__desc">
+              Extraído de frutas selecionadas nas melhores fazendas brasileiras.
+              Nada artificial — só o sabor real que você merece.
+            </div>
+          </div>
+        </div>
+
+        <div class="feature" data-anim="fade" data-delay="2">
+          <div class="feature__icon">💧</div>
+          <div>
+            <div class="feature__name">Ultra-Gaseificado</div>
+            <div class="feature__desc">
+              Bolhas intensas que dançam na língua e refrescam até a alma.
+              Uma explosão de frescor em cada gole.
+            </div>
+          </div>
+        </div>
+
+        <div class="feature" data-anim="fade" data-delay="3">
+          <div class="feature__icon">❄️</div>
+          <div>
+            <div class="feature__name">Feito pra ser Gelado</div>
+            <div class="feature__desc">
+              A temperatura certa transforma o Frizo numa experiência única.
+              Cada detalhe pensado para o máximo frescor.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══ LIFESTYLE ════════════════════════════════════════════════ -->
+  <section class="lifestyle" id="lifestyle">
+    <div class="lifestyle__bg" aria-hidden="true"></div>
+    <div class="lifestyle__gradient" aria-hidden="true"></div>
+
+    <div class="lifestyle__inner">
+
+      <div>
+        <p class="eyebrow lifestyle__eyebrow" data-anim="fade">Estilo de vida</p>
+        <h2 class="lifestyle__heading" data-anim="fade" data-delay="1">
+          Sinta o<br><em>Frizo.</em>
+        </h2>
+        <div class="accent-bars" data-anim="fade" data-delay="1">
+          <span class="bar-ocean"></span>
+          <span class="bar-orange"></span>
+        </div>
+        <p class="lifestyle__desc" data-anim="fade" data-delay="2">
+          Para quem vive o verão com tudo. Para quem sente o calor e transforma
+          em energia. Para quem não aceita menos do que o melhor.
+          O Frizo não é só uma bebida — é um estado de espírito.
+        </p>
+        <a href="#" class="btn-primary" data-anim="fade" data-delay="3">
+          Quero meu Frizo
+        </a>
+      </div>
+
+      <div class="lifestyle__img-wrap" data-anim="right">
+        <div class="lifestyle__tag">#SintaOFrizo</div>
+        <img src="assets/5.png" alt="Sinta o Frizo">
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__logo">Frizo</div>
+          <p class="footer__tagline">"O frescor que explode."</p>
+          <div class="socials">
+
+            <a href="#" class="social" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+
+            <a href="#" class="social" aria-label="TikTok">
+              <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.83 1.56V6.81a4.85 4.85 0 01-1.06-.12z"/></svg>
+            </a>
+
+            <a href="#" class="social" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+
+            <a href="#" class="social" aria-label="YouTube">
+              <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Produto</h4>
+          <ul>
+            <li><a href="#">Frizo Original</a></li>
+            <li><a href="#">Ingredientes</a></li>
+            <li><a href="#">Onde Comprar</a></li>
+            <li><a href="#">Atacado</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4>Marca</h4>
+          <ul>
+            <li><a href="#">Nossa História</a></li>
+            <li><a href="#">Manifesto</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Imprensa</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>© 2025 Frizo. Todos os direitos reservados.</p>
+        <div class="footer__pip">
+          <span style="width:32px; background:var(--ocean)"></span>
+          <span style="width:20px; background:var(--orange)"></span>
+        </div>
+        <p>Feito com ❤️ no Rio de Janeiro 🇧🇷</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ═══ SCRIPTS ══════════════════════════════════════════════════ -->
+  <script>
+    /* Navbar scroll */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* Hero subtle parallax */
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight) {
+        heroBg.style.transform = `translateY(${y * 0.28}px) scale(1.08)`;
+      }
+    }, { passive: true });
+
+    /* Scroll-reveal via Intersection Observer */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('anim-visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('[data-anim]').forEach(el => observer.observe(el));
+
+    /* Mobile menu */
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('navMobile');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = navMobile.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    function closeMobile() {
+      navMobile.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMobile();
+    });
+  </script>
+
+</body>
+</html>

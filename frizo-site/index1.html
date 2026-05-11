@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Frizo - O frescor que explode. Refrigerante premium brasileiro de limão com gaseificação ultra.">
+    <title>Frizo - O frescor que explode</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===========================
+           VARIÁVEIS CSS - IDENTIDADE VISUAL
+           =========================== */
+        :root {
+            --cor-principal: #C8F135;      /* Verde limão elétrico */
+            --cor-secundaria: #0A4F6E;     /* Azul oceano */
+            --cor-branco: #F0FAFF;         /* Branco gelo */
+            --cor-destaque: #FFD923;       /* Amarelo solar */
+            --cor-escura: #051E2F;         /* Azul muito escuro */
+            
+            --font-principal: 'Poppins', sans-serif;
+            
+            --espacamento-xs: 0.5rem;
+            --espacamento-sm: 1rem;
+            --espacamento-md: 2rem;
+            --espacamento-lg: 3rem;
+            --espacamento-xl: 4rem;
+            
+            --transicao-suave: all 0.3s ease-in-out;
+            --transicao-slow: all 0.6s ease-in-out;
+        }
+
+        /* ===========================
+           RESET E ESTILOS GLOBAIS
+           =========================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-principal);
+            line-height: 1.6;
+            color: var(--cor-escura);
+            background-color: var(--cor-branco);
+            overflow-x: hidden;
+        }
+
+        /* ===========================
+           TIPOGRAFIA
+           =========================== */
+        h1 {
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: var(--espacamento-md);
+        }
+
+        h3 {
+            font-size: clamp(1.1rem, 3vw, 1.8rem);
+            font-weight: 700;
+        }
+
+        p {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            line-height: 1.8;
+        }
+
+        /* ===========================
+           COMPONENTES GERAIS
+           =========================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--espacamento-md);
+        }
+
+        .secao {
+            padding: var(--espacamento-xl) 0;
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-block;
+            padding: var(--espacamento-sm) var(--espacamento-lg);
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: var(--transicao-suave);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-principal {
+            background-color: var(--cor-principal);
+            color: var(--cor-escura);
+            box-shadow: 0 8px 25px rgba(200, 241, 53, 0.3);
+        }
+
+        .btn-principal:hover {
+            background-color: var(--cor-destaque);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(200, 241, 53, 0.5);
+        }
+
+        .btn-secundario {
+            background-color: transparent;
+            color: var(--cor-principal);
+            border: 2px solid var(--cor-principal);
+        }
+
+        .btn-secundario:hover {
+            background-color: var(--cor-principal);
+            color: var(--cor-escura);
+        }
+
+        /* Animação de Fade In */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transicao-slow);
+        }
+
+        .fade-in.visivel {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Grid Responsivo */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--espacamento-lg);
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===========================
+           HEADER / NAVEGAÇÃO
+           =========================== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(240, 250, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: var(--espacamento-sm) 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--cor-principal);
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            gap: var(--espacamento-lg);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--cor-escura);
+            font-weight: 600;
+            transition: var(--transicao-suave);
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--cor-principal);
+        }
+
+        .menu-mobile {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: var(--cor-branco);
+                padding: var(--espacamento-md);
+                gap: var(--espacamento-sm);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            nav.ativo {
+                display: flex;
+            }
+
+            .menu-mobile {
+                display: block;
+                color: var(--cor-escura);
+            }
+        }
+
+        /* ===========================
+           HERO - SEÇÃO PRINCIPAL
+           =========================== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--cor-principal) 0%, var(--cor-destaque) 100%);
+            background-attachment: fixed;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('assets/hero.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--cor-escura);
+            animation: slideUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 12vw, 5.5rem);
+            margin-bottom: var(--espacamento-md);
+            animation: scaleIn 0.8s ease-out;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: var(--espacamento-lg);
+            font-weight: 600;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero .btn {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===========================
+           SEÇÃO SOBRE
+           =========================== */
+        .sobre {
+            background: linear-gradient(to bottom, var(--cor-branco), rgba(200, 241, 53, 0.05));
+        }
+
+        .sobre-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--espacamento-xl);
+            align-items: center;
+        }
+
+        .sobre-texto h2 {
+            color: var(--cor-secundaria);
+            margin-bottom: var(--espacamento-md);
+        }
+
+        .sobre-texto p {
+            color: var(--cor-escura);
+            margin-bottom: var(--espacamento-md);
+        }
+
+        .sobre-imagem {
+            position: relative;
+        }
+
+        .sobre-imagem img {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(10, 79, 110, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .sobre-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sobre-imagem img {
+                max-height: 400px;
+                object-fit: cover;
+            }
+        }
+
+        /* ===========================
+           SEÇÃO PRODUTO
+           =========================== */
+        .produto {
+            background: var(--cor-branco);
+        }
+
+        .produto-header {
+            text-align: center;
+            margin-bottom: var(--espacamento-xl);
+        }
+
+        .produto-header h2 {
+            color: var(--cor-principal);
+            margin-bottom: var(--espacamento-md);
+        }
+
+        .produto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--espacamento-xl);
+            align-items: center;
+            margin-bottom: var(--espacamento-xl);
+        }
+
+        .produto-imagem {
+            text-align: center;
+        }
+
+        .produto-imagem img {
+            width: 100%;
+            max-width: 90%;
+            filter: drop-shadow(0 15px 30px rgba(200, 241, 53, 0.3));
+        }
+
+        .produto-features {
+            display: flex;
+            flex-direction: column;
+            gap: var(--espacamento-md);
+        }
+
+        .feature {
+            padding: var(--espacamento-md);
+            background: linear-gradient(135deg, rgba(200, 241, 53, 0.1), rgba(255, 217, 35, 0.1));
+            border-left: 4px solid var(--cor-principal);
+            border-radius: 10px;
+            transition: var(--transicao-suave);
+        }
+
+        .feature:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(200, 241, 53, 0.15);
+        }
+
+        .feature h3 {
+            color: var(--cor-secundaria);
+            margin-bottom: var(--espacamento-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--espacamento-sm);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--cor-principal);
+        }
+
+        @media (max-width: 768px) {
+            .produto-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===========================
+           SEÇÃO ESTILO DE VIDA
+           =========================== */
+        .lifestyle {
+            background: var(--cor-secundaria);
+            color: var(--cor-branco);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lifestyle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('assets/lifestyle.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .lifestyle-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--espacamento-xl);
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lifestyle-texto h2 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            margin-bottom: var(--espacamento-md);
+            color: var(--cor-principal);
+        }
+
+        .lifestyle-texto p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            line-height: 1.9;
+            margin-bottom: var(--espacamento-lg);
+        }
+
+        .lifestyle-imagem img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .lifestyle-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===========================
+           FOOTER
+           =========================== */
+        footer {
+            background: var(--cor-escura);
+            color: var(--cor-branco);
+            padding: var(--espacamento-xl) 0 var(--espacamento-lg);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--espacamento-lg);
+            margin-bottom: var(--espacamento-lg);
+        }
+
+        .footer-section h3 {
+            color: var(--cor-principal);
+            margin-bottom: var(--espacamento-md);
+        }
+
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: var(--espacamento-sm);
+        }
+
+        .footer-section ul li a {
+            color: var(--cor-branco);
+            text-decoration: none;
+            transition: var(--transicao-suave);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--cor-principal);
+            padding-left: 5px;
+        }
+
+        .redes-sociais {
+            display: flex;
+            gap: var(--espacamento-md);
+            margin-top: var(--espacamento-md);
+        }
+
+        .redes-sociais a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: var(--cor-principal);
+            color: var(--cor-escura);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: var(--transicao-suave);
+            font-size: 1.2rem;
+        }
+
+        .redes-sociais a:hover {
+            transform: translateY(-5px);
+            background: var(--cor-destaque);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(200, 241, 53, 0.2);
+            padding-top: var(--espacamento-md);
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* ===========================
+           RESPONSIVO - MOBILE
+           =========================== */
+        @media (max-width: 480px) {
+            :root {
+                --espacamento-lg: 2rem;
+                --espacamento-xl: 2.5rem;
+            }
+
+            .container {
+                padding: 0 var(--espacamento-sm);
+            }
+
+            .secao {
+                padding: var(--espacamento-lg) 0;
+            }
+
+            .hero {
+                min-height: 80vh;
+            }
+
+            .sobre-texto h2,
+            .produto-header h2,
+            .lifestyle-texto h2 {
+                margin-bottom: var(--espacamento-md);
+            }
+
+            .feature {
+                padding: var(--espacamento-sm);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===========================
+           UTILITÁRIOS
+           =========================== */
+        .texto-destaque {
+            color: var(--cor-principal);
+            font-weight: 700;
+        }
+
+        .sombra-suave {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- ===========================
+         HEADER / NAVEGAÇÃO
+         =========================== -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Frizo</a>
+                <nav id="nav-menu">
+                    <a href="#sobre">Sobre</a>
+                    <a href="#produto">Produto</a>
+                    <a href="#lifestyle">Estilo de Vida</a>
+                    <a href="#contato">Contato</a>
+                </nav>
+                <button class="menu-mobile" id="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===========================
+         HERO
+         =========================== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Frizo</h1>
+            <p class="tagline">O frescor que explode.</p>
+            <button class="btn btn-principal">Quero meu Frizo</button>
+        </div>
+    </section>
+
+    <!-- ===========================
+         SOBRE
+         =========================== -->
+    <section class="sobre secao" id="sobre">
+        <div class="container">
+            <div class="sobre-content fade-in">
+                <div class="sobre-texto">
+                    <h2>Nascemos no Calor</h2>
+                    <p>
+                        Frizo nasceu da paixão pelo frescor genuíno. Em um país onde o calor é intenso e 
+                        a vida pulsa com energia, criamos um refrigerante premium que vai muito além de 
+                        simplesmente refrescar. É uma explosão de sabor, um momento de puro frescor que 
+                        desafia o ordinário.
+                    </p>
+                    <p>
+                        Cada gole é uma experiência sensorial única, formulada com limão natural e 
+                        gaseificação ultra, que transforma cada momento em uma celebração do Brasil.
+                    </p>
+                </div>
+                <div class="sobre-imagem fade-in">
+                    <img src="assets/sobre.png" alt="Limão e natureza que inspiram Frizo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         PRODUTO
+         =========================== -->
+    <section class="produto secao" id="produto">
+        <div class="container">
+            <div class="produto-header fade-in">
+                <h2>A Experiência Frizo</h2>
+                <p>Limão natural. Ultra-gaseificado. Gelado. Perfeito.</p>
+            </div>
+
+            <div class="produto-grid fade-in">
+                <div class="produto-imagem">
+                    <img src="assets/produto.png" alt="Garrafa de Frizo">
+                </div>
+
+                <div class="produto-features">
+                    <div class="feature fade-in">
+                        <h3>
+                            <span class="feature-icon"><i class="fas fa-leaf"></i></span>
+                            Limão Natural
+                        </h3>
+                        <p>100% suco de limão natural extraído de frutas selecionadas do melhor terroir brasileiro.</p>
+                    </div>
+
+                    <div class="feature fade-in">
+                        <h3>
+                            <span class="feature-icon"><i class="fas fa-sparkles"></i></span>
+                            Ultra-Gaseificado
+                        </h3>
+                        <p>Bolhas perfeitas que explodem na boca, criando sensações de frescor incomparável.</p>
+                    </div>
+
+                    <div class="feature fade-in">
+                        <h3>
+                            <span class="feature-icon"><i class="fas fa-thermometer-low"></i></span>
+                            Gelado Premium
+                        </h3>
+                        <p>Ideal servido ice cold para potencializar cada nota de sabor em sua forma mais pura.</p>
+                    </div>
+
+                    <div class="feature fade-in">
+                        <h3>
+                            <span class="feature-icon"><i class="fas fa-trophy"></i></span>
+                            Qualidade Certificada
+                        </h3>
+                        <p>Rigorosamente testado e aprovado pelos padrões internacionais de qualidade premium.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         LIFESTYLE
+         =========================== -->
+    <section class="lifestyle secao" id="lifestyle">
+        <div class="container">
+            <div class="lifestyle-content fade-in">
+                <div class="lifestyle-texto">
+                    <h2>Viva o Frescor</h2>
+                    <p>
+                        Frizo não é apenas uma bebida. É um estilo de vida para quem busca o extraordinário 
+                        em cada momento. Seja celebrando conquistas ou refrescando os dias intensos, 
+                        Frizo está lá para potencializar cada instante.
+                    </p>
+                    <button class="btn btn-secundario">Descubra Mais</button>
+                </div>
+                <div class="lifestyle-imagem fade-in">
+                    <img src="assets/lifestyle.png" alt="Frizo no estilo de vida">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================
+         FOOTER
+         =========================== -->
+    <footer id="contato">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Sobre Frizo -->
+                <div class="footer-section">
+                    <h3>Sobre Frizo</h3>
+                    <p>
+                        O frescor que explode. Refrigerante premium brasileiro de limão natural, 
+                        ultra-gaseificado e gelado para os momentos que importam.
+                    </p>
+                </div>
+
+                <!-- Links Rápidos -->
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#produto">Produto</a></li>
+                        <li><a href="#lifestyle">Estilo de Vida</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contato -->
+                <div class="footer-section">
+                    <h3>Entre em Contato</h3>
+                    <p>
+                        Email: <strong>hello@frizo.com.br</strong>
+                    </p>
+                    <p>
+                        Telefone: <strong>+55 (11) 98765-4321</strong>
+                    </p>
+                    <div class="redes-sociais">
+                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rodapé -->
+            <div class="footer-bottom">
+                <p>&copy; 2026 Frizo. Todos os direitos reservados. <span class="texto-destaque">O frescor que explode.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===========================
+         SCRIPTS - FUNCIONALIDADES
+         =========================== -->
+    <script>
+        // ===========================
+        // MENU MOBILE
+        // ===========================
+        const menuBtn = document.getElementById('menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('ativo');
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('ativo');
+            });
+        });
+
+        // ===========================
+        // ANIMAÇÃO DE SCROLL - FADE IN
+        // ===========================
+        const observador = new IntersectionObserver((entradas) => {
+            entradas.forEach(entrada => {
+                if (entrada.isIntersecting) {
+                    entrada.target.classList.add('visivel');
+                    // Opcional: parar de observar após animar
+                    // observador.unobserve(entrada.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observar todos os elementos com classe fade-in
+        document.querySelectorAll('.fade-in').forEach(elemento => {
+            observador.observe(elemento);
+        });
+
+        // ===========================
+        // BOTÃO CTA - SIMULAÇÃO
+        // ===========================
+        document.querySelectorAll('.btn-principal, .btn-secundario').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Simular clique (você pode adicionar ação real aqui)
+                console.log('Botão clicado:', btn.textContent);
+                
+                // Efeito visual de ripple
+                const ripple = document.createElement('span');
+                ripple.style.position = 'absolute';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                ripple.style.borderRadius = '50%';
+                ripple.style.pointerEvents = 'none';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                
+                btn.parentElement.style.position = 'relative';
+                btn.parentElement.style.overflow = 'hidden';
+                btn.parentElement.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Animação de ripple no CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                from {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ===========================
+        // SCROLL PARA TOP
+        // ===========================
+        window.addEventListener('scroll', () => {
+            // Efeito ao fazer scroll (você pode usar para outras coisas)
+            const scrollY = window.scrollY;
+            // Por exemplo: mudar cor do header em scroll
+            if (scrollY > 50) {
+                document.querySelector('header').style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+            } else {
+                document.querySelector('header').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            }
+        });
+
+        // ===========================
+        // PARALLAX EFFECT SUAVE (OPCIONAL)
+        // ===========================
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                const scrollY = window.scrollY;
+                hero.style.backgroundPosition = `center ${scrollY * 0.5}px`;
+            }
+        });
+
+        // ===========================
+        // INICIALIZAÇÃO
+        // ===========================
+        console.log('🍋 Bem-vindo a Frizo! O frescor que explode. 🍋');
+    </script>
+</body>
+</html>
