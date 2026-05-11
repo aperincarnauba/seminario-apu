@@ -15,7 +15,7 @@ CASES = [
         "emoji": "🍋",
         "name": "Frizo",
         "subtitle": "Refrigerante de Limão",
-        "description": "Marca de refrigerante premium de limão para jovens brasileiros. Do briefing ao site, passando por análise de mercado, regulação e PI.",
+        "description": "Marca de refrigerante premium de limão criada para o público jovem brasileiro. O case vai do briefing inicial até o site, com pesquisa de mercado, regulamentação e registro de marca.",
         "zip_name": "frizo-seminario-neo.zip",
         "files": [
             "NEO - Frizo - Roteiro e Prompts.docx",
@@ -30,7 +30,7 @@ CASES = [
         "emoji": "💪",
         "name": "NativaFit",
         "subtitle": "Proteína Premium",
-        "description": "Marca de whey protein com ingredientes brasileiros como açaí e guaraná. Do briefing ao site, passando por análise de mercado e regulação.",
+        "description": "Marca de whey protein com ingredientes 100% brasileiros, como açaí e guaraná. O case cobre desde o briefing até o site, com pesquisa de mercado e análise das normas da Anvisa para suplementos.",
         "zip_name": "nativafit-seminario-neo.zip",
         "files": [
             "NEO - NativaFit - Roteiro e Prompts.docx",
@@ -45,7 +45,7 @@ CASES = [
         "emoji": "🍺",
         "name": "Brisa Tropical",
         "subtitle": "Cerveja Artesanal",
-        "description": "IPA artesanal com maracujá e capim-limão. Do briefing ao site, passando por análise de mercado, regulação de bebidas alcoólicas e PI.",
+        "description": "Cerveja artesanal com maracujá e capim-limão. O case vai do briefing ao site, com pesquisa de mercado, regulamentação de bebidas alcoólicas e análise de registro de marca.",
         "zip_name": "brisa-tropical-seminario-neo.zip",
         "files": [
             "NEO - Brisa Tropical - Roteiro e Prompts.docx",
@@ -79,7 +79,7 @@ def make_qr() -> io.BytesIO:
     )
     qr.add_data(APP_URL)
     qr.make(fit=True)
-    qr_img = qr.make_image(fill_color="#F26522", back_color="#1A1A1A")
+    qr_img = qr.make_image(fill_color="#1A1A1A", back_color="#FFFFFF")
     buf = io.BytesIO()
     qr_img.save(buf, format="PNG")
     buf.seek(0)
@@ -155,7 +155,7 @@ st.markdown("""
 
   /* URL banner */
   .url-banner {
-    background-color: #F26522;
+    background: linear-gradient(to right, #FFD4B0 0%, #F26522 40%, #C94510 100%);
     border-radius: 12px 12px 0 0;
     padding: 1.1rem 1.8rem 1rem;
     text-align: center;
@@ -163,10 +163,11 @@ st.markdown("""
   .url-banner .banner-label {
     font-size: 0.9rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.85);
+    color: rgba(80,20,0,0.7);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 0.25rem;
+    text-shadow: none;
   }
   .url-banner .banner-url {
     font-size: 1.9rem;
@@ -174,6 +175,7 @@ st.markdown("""
     color: #FFFFFF;
     letter-spacing: 0.02em;
     line-height: 1.1;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.25);
   }
 
   /* QR strip abaixo do banner */
@@ -196,7 +198,13 @@ st.markdown("""
     letter-spacing: 0.08em;
   }
 
-  /* Download buttons — padronizados */
+  /* Download buttons — padronizados e centralizados */
+  div[data-testid="stDownloadButton"],
+  .stDownloadButton {
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 0.75rem !important;
+  }
   .stDownloadButton > button {
     background-color: #F26522 !important;
     color: #FFFFFF !important;
@@ -204,8 +212,8 @@ st.markdown("""
     font-weight: 700 !important;
     border: none !important;
     border-radius: 8px !important;
-    padding: 0.6rem 1rem !important;
-    width: 100% !important;
+    padding: 0.6rem 1.8rem !important;
+    width: auto !important;
     min-height: 44px !important;
     letter-spacing: 0.03em;
     transition: background-color 0.2s ease;
@@ -221,7 +229,7 @@ st.markdown("""
     border: 1px solid #333333;
     border-radius: 12px;
     padding: 1.4rem 1.2rem 1.2rem;
-    height: 420px;
+    height: 460px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -301,7 +309,7 @@ st.markdown(f"""
 qr_b64 = base64.b64encode(make_qr().read()).decode()
 st.markdown(f"""
 <div style='text-align:center;margin-top:0.6rem;margin-bottom:0.5rem'>
-  <p class='section-label' style='text-align:center'>📱 Acesse pelo celular</p>
+  <p class='section-label' style='text-align:center'>Acesse pelo celular</p>
   <img src='data:image/png;base64,{qr_b64}' width='240' style='margin:0 auto;display:block'/>
 </div>
 """, unsafe_allow_html=True)
