@@ -4,7 +4,7 @@ from PIL import Image
 import io
 import os
 
-APP_URL = "sua-url-aqui"
+APP_URL = "https://seminario-neo-ia.streamlit.app"
 
 st.set_page_config(
     page_title="Produtividade com IA · NEO Empresarial",
