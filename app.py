@@ -24,6 +24,7 @@ CASES = [
             "03 - Tendencias Bebidas Premium e Saudaveis.pdf",
             "04 - Normas e Regulamentacao ANVISA.pdf",
             "05 - Patentes e Propriedade Intelectual.pdf",
+            "Dados_Frizo.csv",
         ],
     },
     {
@@ -39,6 +40,7 @@ CASES = [
             "Documento_03_Suplemento_NativaFit.pdf",
             "Documento_04_Suplemento_NativaFit.pdf",
             "Documento_05_Suplemento_NativaFit.pdf",
+            "Dados_NativaFit.csv",
         ],
     },
     {
@@ -54,6 +56,7 @@ CASES = [
             "Documento_03_Cerveja_Brisa_Tropical.pdf",
             "Documento_04_Cerveja_Brisa_Tropical.pdf",
             "Documento_05_Cerveja_Brisa_Tropical.pdf",
+            "Dados_Brisa_Tropical.csv",
         ],
     },
 ]
@@ -323,7 +326,11 @@ case_cols = st.columns(3, gap="medium")
 
 for col, case in zip(case_cols, CASES):
     with col:
-        file_items = "".join(f"<li>📄 {f}</li>" for f in case["files"])
+        file_items = "".join(
+            f"<li>📊 <strong>{f}</strong> — importe no Google Sheets para a análise com IA</li>"
+            if f.endswith(".csv") else f"<li>📄 {f}</li>"
+            for f in case["files"]
+        )
         st.markdown(f"""
 <div class='case-card'>
   <div class='case-emoji'>{case['emoji']}</div>
