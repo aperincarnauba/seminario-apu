@@ -18,7 +18,7 @@ CASES = [
         "description": "Marca de refrigerante premium de limão criada para o público jovem brasileiro. O case vai do briefing inicial até o site, com pesquisa de mercado, regulamentação e registro de marca.",
         "zip_name": "frizo-seminario-neo.zip",
         "files": [
-            "NEO - Frizo - Roteiro e Prompts.docx",
+            "NEO - Frizo - Roteiro e Prompts.pdf",
             "01 - Briefing da Frizo.pdf",
             "02 - Mercado de Refrigerantes no Brasil.pdf",
             "03 - Tendencias Bebidas Premium e Saudaveis.pdf",
@@ -34,7 +34,7 @@ CASES = [
         "description": "Marca de whey protein com ingredientes 100% brasileiros, como açaí e guaraná. O case cobre desde o briefing até o site, com pesquisa de mercado e análise das normas da Anvisa para suplementos.",
         "zip_name": "nativafit-seminario-neo.zip",
         "files": [
-            "NEO - NativaFit - Roteiro e Prompts.docx",
+            "NEO - NativaFit - Roteiro e Prompts.pdf",
             "Documento_01_Suplemento_NativaFit.pdf",
             "Documento_02_Suplemento_NativaFit.pdf",
             "Documento_03_Suplemento_NativaFit.pdf",
@@ -50,7 +50,7 @@ CASES = [
         "description": "Cerveja artesanal com maracujá e capim-limão. O case vai do briefing ao site, com pesquisa de mercado, regulamentação de bebidas alcoólicas e análise de registro de marca.",
         "zip_name": "brisa-tropical-seminario-neo.zip",
         "files": [
-            "NEO - Brisa Tropical - Roteiro e Prompts.docx",
+            "NEO - Brisa Tropical - Roteiro e Prompts.pdf",
             "Documento_01_Cerveja_Brisa_Tropical.pdf",
             "Documento_02_Cerveja_Brisa_Tropical.pdf",
             "Documento_03_Cerveja_Brisa_Tropical.pdf",
