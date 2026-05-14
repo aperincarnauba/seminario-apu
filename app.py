@@ -319,6 +319,82 @@ st.markdown(f"""
 
 st.markdown("<hr class='divider'>", unsafe_allow_html=True)
 
+# ── SLIDES ────────────────────────────────────────────────────────────────────
+st.markdown("<p class='section-label'>Slides da apresentação</p>", unsafe_allow_html=True)
+
+slides_path = os.path.join(ASSETS, "Seminário APU 26.1 - Produtividade com IA.pdf")
+if os.path.exists(slides_path):
+    with open(slides_path, "rb") as f:
+        slides_bytes = f.read()
+    _, col_slides, _ = st.columns([1, 2, 1])
+    with col_slides:
+        st.download_button(
+            label="⬇  Baixar Slides (PDF)",
+            data=slides_bytes,
+            file_name="Seminário APU 26.1 - Produtividade com IA.pdf",
+            mime="application/pdf",
+            key="dl_slides",
+            use_container_width=True,
+        )
+
+st.markdown("<hr class='divider'>", unsafe_allow_html=True)
+
+# ── VÍDEOS ────────────────────────────────────────────────────────────────────
+st.markdown("<p class='section-label'>Tutoriais em vídeo · Ferramentas do seminário</p>", unsafe_allow_html=True)
+
+VIDEOS = [
+    {
+        "emoji": "🗂️",
+        "title": "Google Workspace",
+        "description": "Como usar o Google Workspace com IA para aumentar sua produtividade no dia a dia.",
+        "url": "https://www.youtube.com/watch?v=igs5bw5P47s",
+    },
+    {
+        "emoji": "🎨",
+        "title": "Canva AI",
+        "description": "Criação de designs profissionais com inteligência artificial usando o Canva.",
+        "url": "https://www.youtube.com/watch?v=ytaKk0nOFJ0",
+    },
+    {
+        "emoji": "🚀",
+        "title": "Lovable",
+        "description": "Construção de sites e aplicações com IA usando a plataforma Lovable.",
+        "url": "https://www.youtube.com/watch?v=aJ3yK4gFg_c",
+    },
+]
+
+st.markdown("""
+<style>
+  .video-card {
+    background-color: #242424;
+    border: 1px solid #333333;
+    border-radius: 12px;
+    padding: 1.2rem;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .video-card .v-emoji { font-size: 1.8rem; line-height: 1; margin-bottom: 0.4rem; }
+  .video-card .v-title { font-size: 1rem; font-weight: 800; color: #FFFFFF; margin-bottom: 0.4rem; }
+  .video-card .v-desc  { font-size: 0.82rem; color: #AAAAAA; line-height: 1.45; margin-top: auto; }
+</style>
+""", unsafe_allow_html=True)
+
+vid_cols = st.columns(3, gap="medium")
+for col, video in zip(vid_cols, VIDEOS):
+    with col:
+        st.markdown(f"""
+<div class='video-card'>
+  <div class='v-emoji'>{video['emoji']}</div>
+  <p class='v-title'>{video['title']}</p>
+  <p class='v-desc'>{video['description']}</p>
+</div>
+""", unsafe_allow_html=True)
+        st.link_button(f"▶  Assistir no YouTube", video["url"], use_container_width=True)
+
+st.markdown("<hr class='divider'>", unsafe_allow_html=True)
+
 # ── CASES PARA DOWNLOAD ───────────────────────────────────────────────────────
 st.markdown("<p class='section-label'>Cases do seminário · Baixe o material completo</p>", unsafe_allow_html=True)
 

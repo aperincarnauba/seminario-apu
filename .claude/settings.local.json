@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"c:\\\\Users\\\\apu\\\\Documents\\\\NEO\\\\seminario-apu\\\\seminario-apu\\\\\" -Name | Where-Object { $_ -notmatch \"^venv|^frizo\" } | Select-Object -First 30)",
+      "PowerShell(head -10)"
+    ]
+  }
+}
