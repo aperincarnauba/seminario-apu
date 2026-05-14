@@ -322,7 +322,7 @@ st.markdown("<hr class='divider'>", unsafe_allow_html=True)
 # ── SLIDES ────────────────────────────────────────────────────────────────────
 st.markdown("<p class='section-label'>Slides da apresentação</p>", unsafe_allow_html=True)
 
-slides_path = os.path.join(ASSETS, "Seminário APU 26.1 - Produtividade com IA.pdf")
+slides_path = os.path.join(ASSETS, "Seminário NEO - Produtividade com IA by André Perin Carnaúba.pdf")
 if os.path.exists(slides_path):
     with open(slides_path, "rb") as f:
         slides_bytes = f.read()
@@ -331,7 +331,7 @@ if os.path.exists(slides_path):
         st.download_button(
             label="⬇  Baixar Slides (PDF)",
             data=slides_bytes,
-            file_name="Seminário APU 26.1 - Produtividade com IA.pdf",
+            file_name="Seminário NEO - Produtividade com IA by André Perin Carnaúba.pdf",
             mime="application/pdf",
             key="dl_slides",
             use_container_width=True,
